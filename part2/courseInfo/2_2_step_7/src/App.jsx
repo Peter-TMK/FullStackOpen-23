@@ -6,24 +6,21 @@ const Course = ({ name }) => {
   );
 };
 
-// const Content = ({ parts }) => {
-//   return (
-//     <div>
-//       {parts.map((part) => (
-//         <li key={part.id}>{part.name}</li>
-//       ))}
-//     </div>
-//   );
-// };
-
 const Content = ({ parts }) => {
   return (
     <div>
-      <p>{parts[0].name}</p>
-      <p>{parts[1].name}</p>
-      <p>{parts[2].name}</p>
+      {parts.map((part) => (
+        <p key={part.id}>
+          {part.name} {part.exercises}
+        </p>
+      ))}
     </div>
   );
+};
+
+const Total = ({ parts }) => {
+  const totalExercises = parts.reduce((sum, parts) => sum + parts.exercises, 0);
+  return <h4>total of {totalExercises} exercises</h4>;
 };
 
 const App = () => {
@@ -46,6 +43,11 @@ const App = () => {
         exercises: 14,
         id: 3,
       },
+      {
+        name: "Redux",
+        exercises: 11,
+        id: 4,
+      },
     ],
   };
 
@@ -53,6 +55,7 @@ const App = () => {
     <div>
       <Course name={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   );
 };
