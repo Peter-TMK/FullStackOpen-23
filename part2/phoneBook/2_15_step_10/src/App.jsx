@@ -67,23 +67,6 @@ const App = () => {
   const [searchItem, setSearchItem] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  // const hook = () => {
-  //   console.log("effect");
-  //   axios
-  //     .get("http://localhost:3001/persons")
-  //     .then((response) => {
-  //       console.log("promise fulfilled");
-  //       setPersons(response.data);
-  //       setFilteredUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // };
-
-  // useEffect(hook, []);
-  // console.log("render", persons.length, "persons");
-
   useEffect(() => {
     // console.log("effect");
     personsService.getAll().then((initialpersons) => {
@@ -111,29 +94,55 @@ const App = () => {
       // id: persons.length + 1,
     };
 
-    const nameExists = persons.some((person) => person.name === newName);
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
 
-    if (nameExists) {
-      alert(`${newName} is already added to the phonebook`);
-      setNewName("");
-      setNumber("");
-      return;
+    if (existingPerson) {
+      const confirmed = window.confirm(
+        `${existingPerson.name} is already added to the phonebook, replace the old number with a new one?`
+      );
+
+      if (!confirmed) {
+        // If the user doesn't confirm, do nothing
+        return;
+      }
+
+      // Make an HTTP PUT request to update the phone number
+      personsService
+        .update(existingPerson.id, nameObject)
+        .then((updatedPerson) => {
+          setPersons((prevPersons) =>
+            prevPersons.map((person) =>
+              person.id === existingPerson.id ? updatedPerson : person
+            )
+          );
+          setFilteredUsers((prevFilterUsers) =>
+            prevFilterUsers.map((person) =>
+              person.id === existingPerson.id ? updatedPerson : person
+            )
+          );
+        })
+        .catch((error) => {
+          console.error("Error updating person:", error);
+          alert("Error updating person. Please try again.");
+        });
+    } else {
+      // If the person doesn't exist, add a new one
+      personsService
+        .create(nameObject)
+        .then((returnedPerson) => {
+          setPersons((prevPersons) => [...prevPersons, returnedPerson]);
+          setFilteredUsers((prevFilteredUsers) => [
+            ...prevFilteredUsers,
+            returnedPerson,
+          ]);
+        })
+        .catch((error) => {
+          console.error("Error adding new person:", error);
+          alert("Error adding new person. Please try again.");
+        });
     }
-
-    // setPersons([...persons, nameObject]);
-    // setFilteredUsers([...filteredUsers, nameObject]);
-    // setNewName("");
-    // setNumber("");
-
-    personsService
-      .create(nameObject)
-      .then((returnedPerson) => {
-        setPersons([...persons, returnedPerson]);
-        setFilteredUsers([...persons, returnedPerson]);
-      })
-      .catch((error) => {
-        console.error("Error adding new person:", error);
-      });
 
     setNewName("");
     setNumber("");
@@ -174,7 +183,6 @@ const App = () => {
       <PersonForm
         newName={newName}
         newNumber={newNumber}
-        // deleteNote={deleteNote}
         handleNameChange={handleNameChange}
         handleNumber={handleNumber}
         addName={addName}

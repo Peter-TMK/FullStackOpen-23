@@ -21,19 +21,9 @@
       "id": 4
     },
     {
-      "id": 5,
       "name": "pop",
-      "number": "3245"
-    },
-    {
-      "name": "Excel Martins",
-      "number": "12345",
-      "id": 6
-    },
-    {
-      "name": "new guy",
-      "number": "45654",
-      "id": 9
+      "number": "32",
+      "id": 5
     },
     {
       "name": "it guy",
@@ -41,8 +31,13 @@
       "id": 10
     },
     {
-      "name": "Oba Femi",
-      "number": "9876",
+      "name": "Baba T",
+      "number": "12",
+      "id": 11
+    },
+    {
+      "name": "baba ",
+      "number": "",
       "id": 12
     }
   ]
