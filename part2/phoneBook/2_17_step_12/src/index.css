@@ -2,7 +2,7 @@ h2 {
   color: #333;
 }
 
-.success-message {
+.success-message,.error-message {
   background-color: #c7c5c5;
   border: 5px solid rgba(0, 128, 0, 0.819);
   border-radius: 7px;
