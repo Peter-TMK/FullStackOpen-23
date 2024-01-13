@@ -52,11 +52,6 @@
     },
     {
       "content": "a new note...",
-      "important": true,
-      "id": 14
-    },
-    {
-      "content": "a new note...",
       "important": false,
       "id": 15
     },
@@ -114,6 +109,31 @@
       "content": "Odogwu",
       "important": false,
       "id": 27
+    },
+    {
+      "content": "a new note...",
+      "important": false,
+      "id": 28
+    },
+    {
+      "content": "a new note...",
+      "important": true,
+      "id": 29
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": 30
+    },
+    {
+      "content": "hi",
+      "important": true,
+      "id": 31
+    },
+    {
+      "content": "",
+      "important": true,
+      "id": 32
     }
   ]
 }
