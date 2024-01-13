@@ -4,9 +4,9 @@ import Name from "./components/Name";
 import personsService from "./services/persons";
 import "./index.css";
 
-const Notification = ({ successMessage }) => {
-  return <div className="success-message">{successMessage}</div>;
-};
+// const Notification = ({ successMessage }) => {
+//   return <div className="success-message">{successMessage}</div>;
+// };
 
 const Filter = ({ searchItem, handleSearchName }) => {
   return (
@@ -35,7 +35,7 @@ const PersonForm = ({
   handleNameChange,
   handleNumber,
   addName,
-  successMessage,
+  // successMessage,
 }) => {
   return (
     <div>
@@ -51,7 +51,7 @@ const PersonForm = ({
           <button type="submit">add</button>
         </div>
       </form>
-      {successMessage && <Notification successMessage={successMessage} />}
+      {/* {successMessage && <Notification successMessage={successMessage} />} */}
     </div>
   );
 };
@@ -78,10 +78,21 @@ const App = () => {
   const [searchItem, setSearchItem] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // const Notification = () => {
   //   return <h1>{successMessage}</h1>;
   // };
+
+  const Notification = ({ message, isError }) => {
+    if (!message) {
+      return null;
+    }
+
+    const className = isError ? "error-message" : "success-message";
+
+    return <div className={className}>{message}</div>;
+  };
 
   useEffect(() => {
     // console.log("effect");
@@ -138,10 +149,21 @@ const App = () => {
               person.id === existingPerson.id ? updatedPerson : person
             )
           );
+          setSuccessMessage(`Added ${updatedPerson.name}`);
+          setTimeout(() => {
+            setSuccessMessage("");
+          }, 4000);
         })
         .catch((error) => {
           console.error("Error updating person:", error);
-          alert("Error updating person. Please try again.");
+          // alert("Error updating person. Please try again.");
+          if (error.response && error.response.status === 404) {
+            setErrorMessage(
+              `Information ${existingPerson.name} has already been removed from the server`
+            );
+          } else {
+            setErrorMessage("Error updating person. Please try again.");
+          }
         });
     } else {
       // If the person doesn't exist, add a new one
@@ -200,6 +222,9 @@ const App = () => {
       {/* <Notification /> */}
       {/* <Notification successMessage={successMessage} /> */}
 
+      <Notification message={successMessage} isError={false} />
+      <Notification message={errorMessage} isError={true} />
+
       <Filter searchItem={searchItem} handleSearchName={handleSearchName} />
 
       <PersonForm
@@ -208,7 +233,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumber={handleNumber}
         addName={addName}
-        successMessage={successMessage}
+        // successMessage={successMessage}
       />
       <Persons filteredUsers={filteredUsers} deleteNote={deleteNote} />
     </div>
