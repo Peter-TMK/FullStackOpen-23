@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
-const PORT = 3001;
-
-const entries = [
+let persons = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -26,10 +25,13 @@ const entries = [
   },
 ];
 
+const PORT = 3001;
+
+// Get all persons
 app.get("/api/persons", (req, res) => {
-  res.send(entries);
+  res.status(200).json(persons);
 });
 
 app.listen(PORT, () => {
-  console.log(`Server hit the ground running @port ${PORT}`);
+  console.log(`server running @ http://localhost:${PORT}`);
 });
