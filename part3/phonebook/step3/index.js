@@ -38,6 +38,16 @@ app.get("/info", (req, res) => {
   );
 });
 
+// Get single person
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const person = persons.find((person) => person.id === id);
+  if (!person) {
+    res.status(404).send(`Person with id: ${id} NOT found`);
+  }
+  res.status(200).json(person);
+});
+
 app.listen(PORT, () => {
   console.log(`server running @ http://localhost:${PORT}`);
 });
