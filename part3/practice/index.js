@@ -22,7 +22,7 @@ let notes = [
   },
 ];
 
-const PORT = 3030;
+const PORT = 3001;
 
 // Get all notes
 app.get("/api/notes", (req, res) => {
@@ -68,5 +68,5 @@ app.post("/api/notes", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("server running now!");
+  console.log(`server running @ http://localhost:${PORT}`);
 });
