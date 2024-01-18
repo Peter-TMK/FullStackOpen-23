@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import axios from "axios";
 import Name from "./components/Name";
 import personsService from "./services/persons";
 
@@ -67,23 +66,6 @@ const App = () => {
   const [searchItem, setSearchItem] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  // const hook = () => {
-  //   console.log("effect");
-  //   axios
-  //     .get("http://localhost:3001/persons")
-  //     .then((response) => {
-  //       console.log("promise fulfilled");
-  //       setPersons(response.data);
-  //       setFilteredUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // };
-
-  // useEffect(hook, []);
-  // console.log("render", persons.length, "persons");
-
   useEffect(() => {
     // console.log("effect");
     personsService.getAll().then((initialpersons) => {
@@ -119,11 +101,6 @@ const App = () => {
       setNumber("");
       return;
     }
-
-    // setPersons([...persons, nameObject]);
-    // setFilteredUsers([...filteredUsers, nameObject]);
-    // setNewName("");
-    // setNumber("");
 
     personsService
       .create(nameObject)
@@ -174,7 +151,6 @@ const App = () => {
       <PersonForm
         newName={newName}
         newNumber={newNumber}
-        // deleteNote={deleteNote}
         handleNameChange={handleNameChange}
         handleNumber={handleNumber}
         addName={addName}
