@@ -76,15 +76,6 @@ app.get("/api/persons", (request, response) => {
 //   res.status(200).json(person);
 // });
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  }
-  next(error);
-};
-
 // // Delete a person
 // app.delete("/api/persons/:id", (req, res) => {
 //   const id = Number(req.params.id);
@@ -97,7 +88,10 @@ app.delete("/api/persons/:id", (request, response) => {
     .then((result) => {
       response.status(204).end();
     })
-    .catch((error) => next(error));
+    .catch((error) => {
+      console.log(error);
+      response.status(400).send({ error: "malformatted id" });
+    });
 });
 
 // const generateId = () => {
@@ -139,8 +133,6 @@ app.post("/api/persons", (request, response) => {
     response.json(savedPerson);
   });
 });
-
-app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`server running @ http://localhost:${PORT}`);

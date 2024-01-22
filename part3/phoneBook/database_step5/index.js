@@ -123,21 +123,77 @@ app.delete("/api/persons/:id", (request, response) => {
 //   res.status(201).send(persons);
 // });
 
-app.post("/api/persons", (request, response) => {
+// app.post("/api/persons", (request, response) => {
+//   const body = request.body;
+
+//   if (body.name === undefined) {
+//     return response.status(400).json({ error: "name missing" });
+//   }
+
+//   const person = new Person({
+//     name: body.name,
+//     number: body.number,
+//   });
+
+//   person.save().then((savedPerson) => {
+//     response.json(savedPerson);
+//   });
+// });
+
+// Updating an existing person's phone number
+app.put("/api/persons/:id", (request, response, next) => {
+  const { id } = request.params;
+  const { number } = request.body;
+
+  // Update the person's number using findByIdAndUpdate
+  Person.findByIdAndUpdate(id, { number }, { new: true })
+    .then((updatedPerson) => {
+      if (updatedPerson) {
+        response.json(updatedPerson);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
+
+app.put("/api/persons/:id", (request, response, next) => {
   const body = request.body;
 
-  if (body.name === undefined) {
-    return response.status(400).json({ error: "name missing" });
-  }
-
-  const person = new Person({
+  const person = {
     name: body.name,
     number: body.number,
-  });
+  };
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
+});
+
+app.get("/api/persons/:id", (request, response, next) => {
+  const { id } = request.params;
+
+  Person.findById(id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
+
+app.get("/info", (request, response, next) => {
+  Person.find({})
+    .then((persons) => {
+      response.send(
+        `Phonebook has info for ${persons.length} people. <br><br> ${Date()}`
+      );
+    })
+    .catch((error) => next(error));
 });
 
 app.use(errorHandler);
