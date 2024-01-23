@@ -172,6 +172,30 @@ app.put("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.get("/api/persons/:id", (request, response, next) => {
+  const { id } = request.params;
+
+  Person.findById(id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
+
+app.get("/info", (request, response, next) => {
+  Person.find({})
+    .then((persons) => {
+      response.send(
+        `Phonebook has info for ${persons.length} people. <br><br> ${Date()}`
+      );
+    })
+    .catch((error) => next(error));
+});
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
