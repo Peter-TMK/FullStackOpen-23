@@ -123,22 +123,22 @@ app.delete("/api/persons/:id", (request, response) => {
 //   res.status(201).send(persons);
 // });
 
-// app.post("/api/persons", (request, response) => {
-//   const body = request.body;
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
 
-//   if (body.name === undefined) {
-//     return response.status(400).json({ error: "name missing" });
-//   }
+  if (body.name === undefined) {
+    return response.status(400).json({ error: "name missing" });
+  }
 
-//   const person = new Person({
-//     name: body.name,
-//     number: body.number,
-//   });
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-//   person.save().then((savedPerson) => {
-//     response.json(savedPerson);
-//   });
-// });
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
+});
 
 // Updating an existing person's phone number
 app.put("/api/persons/:id", (request, response, next) => {
