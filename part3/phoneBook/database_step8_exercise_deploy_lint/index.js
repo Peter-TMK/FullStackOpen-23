@@ -70,7 +70,7 @@ app.post("/api/persons", (request, response, next) => {
     .catch((error) => next(error)); // Pass any caught error to the errorHandler middleware
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then((result) => {
       response.status(204).end();

@@ -6,7 +6,12 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "prettier": {
+    "singleQuote": false,
+    "jsxSingleQuote": false
   },
   "keywords": [],
   "author": "",
@@ -17,5 +22,8 @@
     "express": "^4.18.2",
     "mongoose": "^8.1.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
   }
 }

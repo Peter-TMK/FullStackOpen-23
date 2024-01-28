@@ -48,42 +48,11 @@ let persons = [
   },
 ];
 
-// Get all persons
-// app.get("/api/persons", (req, res) => {
-//   res.status(200).json(persons);
-// });
-
 app.get("/api/persons", (request, response) => {
   Person.find({}).then((persons) => {
     response.json(persons);
   });
 });
-
-// // Get persons info
-// app.get("/info", (req, res) => {
-//   res.send(
-//     `Phonebook has info for ${persons.length} people. <br><br> ${Date()}`
-//   );
-// });
-
-// // Get single person
-// app.get("/api/persons/:id", (req, res) => {
-//   const id = Number(req.params.id);
-//   const person = persons.find((person) => person.id === id);
-//   if (!person) {
-//     res.status(404).send(`Person with id: ${id} NOT found`);
-//   }
-//   res.status(200).json(person);
-// });
-
-// const errorHandler = (error, request, response, next) => {
-//   console.error(error.message);
-
-//   if (error.name === "CastError") {
-//     return response.status(400).send({ error: "malformatted id" });
-//   }
-//   next(error);
-// };
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
@@ -96,43 +65,13 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-// // Delete a person
-// app.delete("/api/persons/:id", (req, res) => {
-//   const id = Number(req.params.id);
-//   persons.filter((person) => person.id !== id);
-//   res.send(`Person with id:${id} has been deleted successfully!`);
-// });
-
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then((result) => {
       response.status(204).end();
     })
     .catch((error) => next(error));
 });
-
-// const generateId = () => {
-//   const maxId =
-//     persons.length > 0 ? Math.floor(Math.random() * (200 - 5 + 1) + 5) : 0;
-//   return maxId + 1;
-// };
-
-// Create new person
-// app.post("/api/persons", (req, res) => {
-//   const body = req.body;
-//   body.id = generateId();
-//   if (!body.name || !body.number) {
-//     res.status(404).json({ error: "name/number is missing!" });
-//   }
-//   const existingName = persons.find((person) => person.name === body.name);
-
-//   if (existingName) {
-//     res.status(400).json({ error: "name must be unique" });
-//   }
-
-//   persons = persons.concat(body);
-//   res.status(201).send(persons);
-// });
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
