@@ -1,6 +1,7 @@
 const { totalLikes } = require("../utils/list_helper");
 const { favoriteBlog } = require("../utils/list_helper");
 // const { mostBlogs } = require("../utils/list_helper");
+const { mostLikes } = require("../utils/list_helper");
 
 describe("total likes", () => {
   const listWithOneBlog = [
@@ -107,4 +108,14 @@ describe("total likes", () => {
   //   const result = mostBlogs([]);
   //   expect(result).toBeNull();
   // });
+
+  describe("most likes", () => {
+    test("finds the author with the most likes", () => {
+      const result = mostLikes(blogs);
+      expect(result).toEqual({
+        author: "Edsger W. Dijkstra",
+        likes: 17,
+      });
+    });
+  });
 });
