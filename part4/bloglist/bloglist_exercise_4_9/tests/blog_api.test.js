@@ -40,6 +40,13 @@ test("a specific blog is within the returned blogs", async () => {
   expect(contents).toContain("DevWithMe");
 });
 
+test("blog post has 'id' property instead of '_id'", async () => {
+  const response = await api.get("/api/blogs");
+
+  const blog = response.body[0];
+  expect(blog.id).toBeDefined();
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
