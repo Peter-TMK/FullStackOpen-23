@@ -1,30 +1,28 @@
 import React from "react";
+import Part from "./Part";
+
+// Define the CoursePart type
+interface CoursePart {
+  name: string;
+  exerciseCount: number;
+  description?: string;
+  groupProjectCount?: number;
+  backgroundMaterial?: string;
+  requirements?: string[];
+  kind: "basic" | "group" | "background" | "special";
+}
 
 // Type declaration for Content component props
 interface ContentProps {
-  courseParts: { name: string; exerciseCount: number }[];
+  courseParts: CoursePart[];
 }
 
 // Content component renders the name of the course
-// const Content = (courseParts: ContentProps) => {
-//   return (
-//     <div>
-//       {courseParts.map((part, index) => (
-//         <p key={index}>
-//           {part.name} {part.exerciseCount}
-//         </p>
-//       ))}
-//     </div>
-//   );
-// };
-
 const Content: React.FC<ContentProps> = ({ courseParts }) => {
   return (
     <div>
       {courseParts.map((part, index) => (
-        <p key={index}>
-          {part.name} {part.exerciseCount}
-        </p>
+        <Part key={index} part={part} />
       ))}
     </div>
   );
